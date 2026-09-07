@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crop Disease Analyzer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🌱 Crop Disease Analyzer</h1>
+        <p class="subtitle">
+            Upload a crop leaf image to analyze possible disease.
+        </p>
+
+        <!-- Upload Section -->
+        <div class="upload-box">
+
+            <input type="file" id="imageInput" accept="image/*">
+
+            <label for="imageInput" class="upload-button">
+                📷 Choose Leaf Image
+            </label>
+
+            <p id="fileName">No image selected</p>
+
+        </div>
+
+
+        <!-- Image Preview -->
+
+        <div class="preview-section">
+
+            <img id="previewImage" src="" alt="Leaf Preview">
+
+        </div>
+
+
+        <!-- Analyze Button -->
+
+        <button id="analyzeButton">
+            🔍 Analyze Leaf
+        </button>
+
+
+        <!-- Loading -->
+
+        <div id="loading">
+            Analyzing image...
+        </div>
+
+
+        <!-- Result -->
+
+        <div id="result">
+
+            <h2>Analysis Result</h2>
+
+            <p>
+                <strong>Disease:</strong>
+                <span id="disease"></span>
+            </p>
+
+            <p>
+                <strong>Confidence:</strong>
+                <span id="confidence"></span>
+            </p>
+
+            <p>
+                <strong>Recommendation:</strong>
+                <span id="recommendation"></span>
+            </p>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
