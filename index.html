@@ -25,109 +25,155 @@
                 Select a crop and upload its leaf image to identify possible diseases.
             </p>
         </section>
+<!-- Crop Selection Section -->
+<section class="card">
+    <h2 data-key="cropSelectionHeading">Select Crop</h2>
 
-        <!-- Crop Selection Section -->
-        <section class="card">
-            <h2 data-key="cropSelectionHeading">Select Crop</h2>
+    <div class="crop-grid">
 
-            <div class="crop-grid">
+        <!-- Wheat -->
+        <div class="crop-card" data-crop="wheat">
+            <img
+                src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500"
+                alt="Wheat Crop"
+            >
+            <h3 data-key="wheat">Wheat</h3>
+        </div>
 
-                <div class="crop-card" data-crop="wheat">
-                    <img
-                        src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500"
-                        alt="Wheat Crop"
-                    >
-                    <h3 data-key="wheat">Wheat</h3>
-                </div>
+        <!-- Rice -->
+        <div class="crop-card" data-crop="rice">
+            <img
+                src="https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=500"
+                alt="Rice Crop"
+            >
+            <h3 data-key="rice">Rice</h3>
+        </div>
 
-                <div class="crop-card" data-crop="rice">
-                    <img
-                        src="https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=500"
-                        alt="Rice Crop"
-                    >
-                    <h3 data-key="rice">Rice</h3>
-                </div>
+        <!-- Cotton -->
+        <div class="crop-card" data-crop="cotton">
+            <img
+                src="https://images.unsplash.com/photo-1592982537447-6f2a6a0a0a0a?w=500"
+                alt="Cotton Crop"
+            >
+            <h3 data-key="cotton">Cotton</h3>
+        </div>
 
-                <div class="crop-card" data-crop="cotton">
-                    <img
-                        src="https://images.unsplash.com/photo-1592982537447-6f2a6a0a0a0a?w=500"
-                        alt="Cotton Crop"
-                    >
-                    <h3 data-key="cotton">Cotton</h3>
-                </div>
+        <!-- Tomato -->
+        <div class="crop-card" data-crop="tomato">
+            <img
+                src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500"
+                alt="Tomato Crop"
+            >
+            <h3 data-key="tomato">Tomato</h3>
+        </div>
 
-                <div class="crop-card" data-crop="tomato">
-                    <img
-                        src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500"
-                        alt="Tomato Crop"
-                    >
-                    <h3 data-key="tomato">Tomato</h3>
-                </div>
+        <!-- Maize -->
+        <div class="crop-card" data-crop="maize">
+            <img
+                src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=500"
+                alt="Maize Crop"
+            >
+            <h3 data-key="maize">Maize</h3>
+        </div>
 
-                <div class="crop-card" data-crop="maize">
-                    <img
-                        src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=500"
-                        alt="Maize Crop"
-                    >
-                    <h3 data-key="maize">Maize</h3>
-                </div>
+        <!-- Potato -->
+        <div class="crop-card" data-crop="potato">
+            <img
+                src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500"
+                alt="Potato Crop"
+            >
+            <h3 data-key="potato">Potato</h3>
+        </div>
 
-            </div>
+        <!-- Sugarcane -->
+        <div class="crop-card" data-crop="sugarcane">
+            <img
+                src="https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=500"
+                alt="Sugarcane Crop"
+            >
+            <h3 data-key="sugarcane">Sugarcane</h3>
+        </div>
 
-            <p class="selected-crop-text">
-                <strong data-key="selectedCropLabel">Selected Crop:</strong>
-                <span id="selectedCrop">None</span>
-            </p>
-        </section>
+        <!-- Mustard -->
+        <div class="crop-card" data-crop="mustard">
+            <img
+                src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=500"
+                alt="Mustard Crop"
+            >
+            <h3 data-key="mustard">Mustard</h3>
+        </div>
 
-        <!-- Image Upload Section -->
-        <section class="card">
-            <h2 data-key="uploadHeading">Upload Crop Image</h2>
+        <!-- Groundnut -->
+        <div class="crop-card" data-crop="groundnut">
+            <img
+                src="https://images.unsplash.com/photo-1567892737950-30c4db37cd89?w=500"
+                alt="Groundnut Crop"
+            >
+            <h3 data-key="groundnut">Groundnut</h3>
+        </div>
 
-            <label for="imageInput" class="upload-label" data-key="chooseImage">
-                Choose Leaf Image
-            </label>
+        <!-- Soybean -->
+        <div class="crop-card" data-crop="soybean">
+            <img
+                src="https://images.unsplash.com/photo-1607305387299-a3d9611cd469?w=500"
+                alt="Soybean Crop"
+            >
+            <h3 data-key="soybean">Soybean</h3>
+        </div>
 
-            <input type="file" id="imageInput" accept="image/*">
+        <!-- Chickpea -->
+        <div class="crop-card" data-crop="chickpea">
+            <img
+                src="https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=500"
+                alt="Chickpea Crop"
+            >
+            <h3 data-key="chickpea">Chickpea</h3>
+        </div>
 
-            <img id="previewImage" alt="Preview">
+        <!-- Onion -->
+        <div class="crop-card" data-crop="onion">
+            <img
+                src="https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=500"
+                alt="Onion Crop"
+            >
+            <h3 data-key="onion">Onion</h3>
+        </div>
 
-            <button id="analyzeBtn" data-key="analyzeButton">
-                Analyze Image
-            </button>
+        <!-- Chilli -->
+        <div class="crop-card" data-crop="chilli">
+            <img
+                src="https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=500"
+                alt="Chilli Crop"
+            >
+            <h3 data-key="chilli">Chilli</h3>
+        </div>
 
-            <p id="statusMessage"></p>
-        </section>
+        <!-- Brinjal -->
+        <div class="crop-card" data-crop="brinjal">
+            <img
+                src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=500"
+                alt="Brinjal Crop"
+            >
+            <h3 data-key="brinjal">Brinjal</h3>
+        </div>
 
-        <!-- Result Section -->
-        <section class="card result-card" id="resultSection">
-            <h2 data-key="resultHeading">Analysis Result</h2>
+        <!-- Apple -->
+        <div class="crop-card" data-crop="apple">
+            <img
+                src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500"
+                alt="Apple Crop"
+            >
+            <h3 data-key="apple">Apple</h3>
+        </div>
 
-            <p>
-                <strong data-key="cropLabel">Crop:</strong>
-                <span id="cropResult">-</span>
-            </p>
+    </div>
 
-            <p>
-                <strong data-key="diseaseLabel">Disease:</strong>
-                <span id="diseaseResult">-</span>
-            </p>
-
-            <p>
-                <strong data-key="confidenceLabel">Confidence:</strong>
-                <span id="confidenceResult">-</span>
-            </p>
-
-            <p>
-                <strong data-key="recommendationLabel">Recommendation:</strong>
-                <span id="recommendationResult">-</span>
-            </p>
-
-            <p>
-                <strong data-key="dateLabel">Date:</strong>
-                <span id="dateResult">-</span>
-            </p>
-        </section>
+    <p class="selected-crop-text">
+        <strong data-key="selectedCropLabel">Selected Crop:</strong>
+        <span id="selectedCrop">None</span>
+    </p>
+</section>
+ 
 
         <!-- History Section -->
         <section class="card">
