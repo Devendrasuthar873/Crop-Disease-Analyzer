@@ -173,6 +173,55 @@
         <span id="selectedCrop">None</span>
     </p>
 </section>
+        
+        <!-- Image Upload Section -->
+        <section class="card">
+            <h2 data-key="uploadHeading">Upload Crop Image</h2>
+
+            <label for="imageInput" class="upload-label" data-key="chooseImage">
+                Choose Leaf Image
+            </label>
+
+            <input type="file" id="imageInput" accept="image/*">
+
+            <img id="previewImage" alt="Preview">
+
+            <button id="analyzeBtn" data-key="analyzeButton">
+                Analyze Image
+            </button>
+
+            <p id="statusMessage"></p>
+        </section>
+
+        <!-- Result Section -->
+        <section class="card result-card" id="resultSection">
+            <h2 data-key="resultHeading">Analysis Result</h2>
+
+            <p>
+                <strong data-key="cropLabel">Crop:</strong>
+                <span id="cropResult">-</span>
+            </p>
+
+            <p>
+                <strong data-key="diseaseLabel">Disease:</strong>
+                <span id="diseaseResult">-</span>
+            </p>
+
+            <p>
+                <strong data-key="confidenceLabel">Confidence:</strong>
+                <span id="confidenceResult">-</span>
+            </p>
+
+            <p>
+                <strong data-key="recommendationLabel">Recommendation:</strong>
+                <span id="recommendationResult">-</span>
+            </p>
+
+            <p>
+                <strong data-key="dateLabel">Date:</strong>
+                <span id="dateResult">-</span>
+            </p>
+        </section>
  
 
         <!-- History Section -->
