@@ -1,239 +1,371 @@
-const cropSelect = document.getElementById("cropSelect");
 const languageSelect = document.getElementById("languageSelect");
 const imageInput = document.getElementById("imageInput");
-const uploadText = document.getElementById("uploadText");
 const previewImage = document.getElementById("previewImage");
-const analyzeButton = document.getElementById("analyzeButton");
-const loading = document.getElementById("loading");
-const result = document.getElementById("result");
-const resultCrop = document.getElementById("resultCrop");
-const diseaseElement = document.getElementById("disease");
-const confidenceElement = document.getElementById("confidence");
-const recommendationElement = document.getElementById("recommendation");
+const analyzeBtn = document.getElementById("analyzeBtn");
+const statusMessage = document.getElementById("statusMessage");
+
+const resultSection = document.getElementById("resultSection");
+const cropResult = document.getElementById("cropResult");
+const diseaseResult = document.getElementById("diseaseResult");
+const confidenceResult = document.getElementById("confidenceResult");
+const recommendationResult = document.getElementById("recommendationResult");
+const dateResult = document.getElementById("dateResult");
+
 const historyList = document.getElementById("historyList");
-const clearHistoryButton = document.getElementById("clearHistoryButton");
+const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+
+const cropCards = document.querySelectorAll(".crop-card");
+const selectedCropText = document.getElementById("selectedCrop");
+
+let selectedImage = null;
+let selectedCrop = null;
+let currentLanguage = "en";
+
+const translations = {
+    en: {
+        pageTitle: "Crop Disease Analyzer",
+        logo: "🌿 Crop Disease Analyzer",
+        heading: "Crop Disease Analyzer",
+        subheading: "Select a crop and upload its leaf image to identify possible diseases.",
+        cropSelectionHeading: "Select Crop",
+        selectedCropLabel: "Selected Crop:",
+        uploadHeading: "Upload Crop Image",
+        chooseImage: "Choose Leaf Image",
+        analyzeButton: "Analyze Image",
+        resultHeading: "Analysis Result",
+        cropLabel: "Crop:",
+        diseaseLabel: "Disease:",
+        confidenceLabel: "Confidence:",
+        recommendationLabel: "Recommendation:",
+        dateLabel: "Date:",
+        historyHeading: "Analysis History",
+        clearHistory: "Clear History",
+        noHistory: "No analysis history available.",
+        selectCrop: "Please select a crop first.",
+        selectImage: "Please select a leaf image first.",
+        analyzing: "Analyzing image...",
+        analysisComplete: "Analysis completed successfully.",
+        footerText: "Crop Disease Analyzer | Smart Agriculture Project",
+
+        wheat: "Wheat",
+        rice: "Rice",
+        cotton: "Cotton",
+        tomato: "Tomato",
+        maize: "Maize",
+
+        healthy: "Healthy Leaf",
+        disease1: "Leaf Blight",
+        disease2: "Powdery Mildew",
+        disease3: "Leaf Spot",
+
+        recommendationHealthy:
+            "The crop appears healthy. Continue regular monitoring.",
+
+        recommendationDisease:
+            "Remove infected leaves and consult an agricultural expert.",
+
+        historyCrop: "Crop",
+        historyDisease: "Disease",
+        historyConfidence: "Confidence",
+        historyRecommendation: "Recommendation",
+        historyDate: "Date",
+        historyCleared: "History cleared successfully."
+    },
+
+    hi: {
+        pageTitle: "फसल रोग विश्लेषक",
+        logo: "🌿 फसल रोग विश्लेषक",
+        heading: "फसल रोग विश्लेषक",
+        subheading: "फसल चुनें और संभावित रोग पहचानने के लिए उसकी पत्ती की तस्वीर अपलोड करें।",
+        cropSelectionHeading: "फसल चुनें",
+        selectedCropLabel: "चयनित फसल:",
+        uploadHeading: "फसल की तस्वीर अपलोड करें",
+        chooseImage: "पत्ती की तस्वीर चुनें",
+        analyzeButton: "तस्वीर का विश्लेषण करें",
+        resultHeading: "विश्लेषण का परिणाम",
+        cropLabel: "फसल:",
+        diseaseLabel: "रोग:",
+        confidenceLabel: "विश्वसनीयता:",
+        recommendationLabel: "सलाह:",
+        dateLabel: "दिनांक:",
+        historyHeading: "विश्लेषण इतिहास",
+        clearHistory: "इतिहास साफ करें",
+        noHistory: "अभी कोई विश्लेषण इतिहास उपलब्ध नहीं है।",
+        selectCrop: "कृपया पहले एक फसल चुनें।",
+        selectImage: "कृपया पहले पत्ती की तस्वीर चुनें।",
+        analyzing: "तस्वीर का विश्लेषण हो रहा है...",
+        analysisComplete: "विश्लेषण सफलतापूर्वक पूरा हुआ।",
+        footerText: "फसल रोग विश्लेषक | स्मार्ट कृषि प्रोजेक्ट",
+
+        wheat: "गेहूँ",
+        rice: "चावल",
+        cotton: "कपास",
+        tomato: "टमाटर",
+        maize: "मक्का",
+
+        healthy: "स्वस्थ पत्ती",
+        disease1: "पत्ती झुलसा रोग",
+        disease2: "पाउडरी मिल्ड्यू",
+        disease3: "पत्ती धब्बा रोग",
+
+        recommendationHealthy:
+            "फसल स्वस्थ दिखाई दे रही है। नियमित निगरानी जारी रखें।",
+
+        recommendationDisease:
+            "संक्रमित पत्तियों को हटाएँ और कृषि विशेषज्ञ से सलाह लें।",
+
+        historyCrop: "फसल",
+        historyDisease: "रोग",
+        historyConfidence: "विश्वसनीयता",
+        historyRecommendation: "सलाह",
+        historyDate: "दिनांक",
+        historyCleared: "इतिहास सफलतापूर्वक साफ कर दिया गया है।"
+    }
+};
 
 const cropNames = {
-  rice: { en: "Rice", hi: "चावल" },
-  wheat: { en: "Wheat", hi: "गेहूं" },
-  tomato: { en: "Tomato", hi: "टमाटर" },
-  potato: { en: "Potato", hi: "आलू" },
-  maize: { en: "Maize", hi: "मक्का" },
-  cotton: { en: "Cotton", hi: "कपास" },
-  barley: { en: "Barley", hi: "जौ" },
-  groundnut: { en: "Groundnut", hi: "मूंगफली" },
-  chickpea: { en: "Chickpea", hi: "चना" },
-  mustard: { en: "Mustard", hi: "सरसों" },
-  soybean: { en: "Soybean", hi: "सोयाबीन" },
-  onion: { en: "Onion", hi: "प्याज" },
-  brinjal: { en: "Brinjal", hi: "बैंगन" },
-  chilli: { en: "Chilli", hi: "मिर्च" },
-  apple: { en: "Apple", hi: "सेब" },
-  grape: { en: "Grape", hi: "अंगूर" },
-  sugarcane: { en: "Sugarcane", hi: "गन्ना" },
-  banana: { en: "Banana", hi: "केला" },
-  mango: { en: "Mango", hi: "आम" }
+    wheat: "wheat",
+    rice: "rice",
+    cotton: "cotton",
+    tomato: "tomato",
+    maize: "maize"
 };
 
-const demoDiseases = {
-  rice: [
-    ["Rice Blast", "Use disease-free seed and consult an agriculture expert for suitable fungicide."],
-    ["Bacterial Leaf Blight", "Maintain field sanitation and avoid excessive nitrogen fertilizer."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  wheat: [
-    ["Wheat Rust", "Remove heavily infected plants and consult an expert for recommended fungicide."],
-    ["Powdery Mildew", "Improve air circulation and seek suitable disease-management advice."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  tomato: [
-    ["Early Blight", "Remove infected leaves and avoid watering the foliage."],
-    ["Late Blight", "Improve ventilation and consult an expert for suitable treatment."],
-    ["Leaf Mold", "Avoid excess humidity and remove affected leaves."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  potato: [
-    ["Late Blight", "Remove infected foliage and consult an expert about suitable fungicide."],
-    ["Early Blight", "Use crop rotation and remove severely affected leaves."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  maize: [
-    ["Northern Corn Leaf Blight", "Remove crop residue and consult an expert for management."],
-    ["Common Rust", "Monitor the crop and seek suitable treatment if symptoms increase."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  cotton: [
-    ["Bacterial Blight", "Remove severely affected plant parts and maintain field sanitation."],
-    ["Leaf Spot", "Avoid excess moisture on leaves and consult an expert."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  barley: [
-    ["Barley Rust", "Use resistant varieties where available and seek expert advice."],
-    ["Powdery Mildew", "Improve air circulation and monitor disease spread."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  groundnut: [
-    ["Early Leaf Spot", "Use crop rotation and consult an expert for suitable fungicide."],
-    ["Late Leaf Spot", "Remove infected residue and follow recommended crop protection."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  chickpea: [
-    ["Ascochyta Blight", "Use clean seed and remove severely infected plant debris."],
-    ["Fusarium Wilt", "Use resistant varieties and maintain proper crop rotation."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  mustard: [
-    ["Alternaria Blight", "Remove infected residue and consult an expert for treatment."],
-    ["White Rust", "Monitor affected leaves and use recommended disease management."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  soybean: [
-    ["Frogeye Leaf Spot", "Use clean seed and consult an expert for suitable fungicide."],
-    ["Downy Mildew", "Improve field drainage and monitor disease development."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  onion: [
-    ["Purple Blotch", "Avoid overhead irrigation and remove infected plant debris."],
-    ["Downy Mildew", "Improve air circulation and consult an expert."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  brinjal: [
-    ["Phomopsis Blight", "Remove affected plant parts and maintain field hygiene."],
-    ["Bacterial Wilt", "Remove infected plants and avoid moving contaminated soil."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  chilli: [
-    ["Leaf Curl", "Control insect vectors and consult an agriculture expert."],
-    ["Anthracnose", "Remove infected fruits and avoid excess leaf wetness."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  apple: [
-    ["Apple Scab", "Remove fallen leaves and consult an expert for disease management."],
-    ["Powdery Mildew", "Prune affected parts and improve air circulation."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  grape: [
-    ["Downy Mildew", "Improve canopy ventilation and seek suitable treatment advice."],
-    ["Powdery Mildew", "Prune dense growth and monitor humidity."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  sugarcane: [
-    ["Red Rot", "Remove affected clumps and use healthy planting material."],
-    ["Smut", "Use disease-free setts and consult an expert."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  banana: [
-    ["Sigatoka Leaf Spot", "Remove severely affected leaves and improve field sanitation."],
-    ["Panama Disease", "Use healthy planting material and avoid spreading contaminated soil."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ],
-  mango: [
-    ["Powdery Mildew", "Improve canopy ventilation and consult an expert for treatment."],
-    ["Anthracnose", "Remove infected plant material and avoid excess moisture."],
-    ["Healthy Leaf", "The leaf appears healthy. Continue regular monitoring."]
-  ]
-};
+// Crop select karna
+cropCards.forEach((card) => {
+    card.addEventListener("click", function () {
+        cropCards.forEach((item) => {
+            item.classList.remove("selected");
+        });
 
-const hindiText = {
-  chooseCrop: "कृपया पहले फसल चुनें।",
-  chooseImage: "कृपया पहले पत्ती की तस्वीर चुनें।",
-  analyzing: "तस्वीर का विश्लेषण हो रहा है...",
-  recommendation: "सलाह",
-  confidence: "विश्वास स्तर",
-  noHistory: "अभी कोई विश्लेषण इतिहास नहीं है।"
-};
+        this.classList.add("selected");
 
-imageInput.addEventListener("change", () => {
-  const file = imageInput.files[0];
-  if (!file) return;
+        selectedCrop = this.getAttribute("data-crop");
 
-  uploadText.textContent = `Selected: ${file.name}`;
-  previewImage.src = URL.createObjectURL(file);
-  previewImage.classList.remove("hidden");
-});
-
-analyzeButton.addEventListener("click", () => {
-  const lang = languageSelect.value;
-  const crop = cropSelect.value;
-
-  if (!crop) {
-    alert(lang === "hi" ? hindiText.chooseCrop : "Please select a crop first.");
-    return;
-  }
-
-  if (!imageInput.files[0]) {
-    alert(lang === "hi" ? hindiText.chooseImage : "Please choose a leaf image first.");
-    return;
-  }
-
-  result.classList.add("hidden");
-  loading.textContent = lang === "hi" ? hindiText.analyzing : "Analyzing image...";
-  loading.classList.remove("hidden");
-  analyzeButton.disabled = true;
-
-  setTimeout(() => {
-    const options = demoDiseases[crop] || [["Healthy Leaf", "Continue regular monitoring."]];
-    const selected = options[Math.floor(Math.random() * options.length)];
-    const confidence = `${Math.floor(Math.random() * 16) + 80}%`;
-    const cropName = cropNames[crop][lang];
-
-    resultCrop.textContent = cropName;
-    diseaseElement.textContent = selected[0];
-    confidenceElement.textContent = confidence;
-    recommendationElement.textContent = selected[1];
-
-    loading.classList.add("hidden");
-    result.classList.remove("hidden");
-    analyzeButton.disabled = false;
-
-    saveHistory({
-      date: new Date().toLocaleString(),
-      crop: cropName,
-      disease: selected[0],
-      confidence,
-      recommendation: selected[1]
+        selectedCropText.textContent =
+            translations[currentLanguage][selectedCrop];
     });
-  }, 1500);
 });
 
-function saveHistory(item) {
-  const history = JSON.parse(localStorage.getItem("cropDiseaseHistory") || "[]");
-  history.unshift(item);
-  localStorage.setItem("cropDiseaseHistory", JSON.stringify(history.slice(0, 20)));
-  renderHistory();
+// Language change
+languageSelect.addEventListener("change", function () {
+    translatePage(this.value);
+});
+
+function translatePage(language) {
+    currentLanguage = language;
+
+    const elements = document.querySelectorAll("[data-key]");
+
+    elements.forEach((element) => {
+        const key = element.getAttribute("data-key");
+
+        if (translations[language][key]) {
+            element.textContent = translations[language][key];
+        }
+    });
+
+    document.title = translations[language].pageTitle;
+
+    if (selectedCrop) {
+        selectedCropText.textContent =
+            translations[language][selectedCrop];
+    }
+
+    renderHistory();
 }
 
+// Image select karna
+imageInput.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    selectedImage = file;
+
+    const imageURL = URL.createObjectURL(file);
+    previewImage.src = imageURL;
+    previewImage.style.display = "block";
+
+    statusMessage.textContent = "";
+});
+
+// Analyze button
+analyzeBtn.addEventListener("click", function () {
+    if (!selectedCrop) {
+        statusMessage.textContent =
+            translations[currentLanguage].selectCrop;
+
+        statusMessage.style.color = "red";
+        return;
+    }
+
+    if (!selectedImage) {
+        statusMessage.textContent =
+            translations[currentLanguage].selectImage;
+
+        statusMessage.style.color = "red";
+        return;
+    }
+
+    statusMessage.textContent =
+        translations[currentLanguage].analyzing;
+
+    statusMessage.style.color = "#176b3a";
+    analyzeBtn.disabled = true;
+
+    setTimeout(function () {
+        const diseases = [
+            "healthy",
+            "disease1",
+            "disease2",
+            "disease3"
+        ];
+
+        const randomDisease =
+            diseases[Math.floor(Math.random() * diseases.length)];
+
+        let diseaseName;
+        let recommendation;
+
+        if (randomDisease === "healthy") {
+            diseaseName = translations[currentLanguage].healthy;
+            recommendation =
+                translations[currentLanguage].recommendationHealthy;
+        } else {
+            diseaseName =
+                translations[currentLanguage][randomDisease];
+
+            recommendation =
+                translations[currentLanguage].recommendationDisease;
+        }
+
+        const confidence = Math.floor(Math.random() * 16) + 80;
+
+        const date = new Date().toLocaleString(
+            currentLanguage === "hi" ? "hi-IN" : "en-IN"
+        );
+
+        const cropName =
+            translations[currentLanguage][selectedCrop];
+
+        cropResult.textContent = cropName;
+        diseaseResult.textContent = diseaseName;
+        confidenceResult.textContent = confidence + "%";
+        recommendationResult.textContent = recommendation;
+        dateResult.textContent = date;
+
+        resultSection.style.display = "block";
+
+        const historyItem = {
+            cropKey: selectedCrop,
+            diseaseKey: randomDisease,
+            confidence: confidence,
+            date: new Date().toISOString()
+        };
+
+        let history =
+            JSON.parse(localStorage.getItem("cropHistory")) || [];
+
+        history.unshift(historyItem);
+
+        localStorage.setItem(
+            "cropHistory",
+            JSON.stringify(history)
+        );
+
+        renderHistory();
+
+        statusMessage.textContent =
+            translations[currentLanguage].analysisComplete;
+
+        analyzeBtn.disabled = false;
+    }, 1500);
+});
+
+// History render karna
 function renderHistory() {
-  const history = JSON.parse(localStorage.getItem("cropDiseaseHistory") || "[]");
+    let history =
+        JSON.parse(localStorage.getItem("cropHistory")) || [];
 
-  if (history.length === 0) {
-    historyList.innerHTML = `<p class="empty-history">${languageSelect.value === "hi" ? hindiText.noHistory : "No analysis history yet."}</p>`;
-    return;
-  }
+    if (history.length === 0) {
+        historyList.innerHTML = `
+            <p>${translations[currentLanguage].noHistory}</p>
+        `;
+        return;
+    }
 
-  historyList.innerHTML = history.map(item => `
-    <div class="history-item">
-      <p><strong>Date:</strong> ${escapeHTML(item.date)}</p>
-      <p><strong>Crop:</strong> ${escapeHTML(item.crop)}</p>
-      <p><strong>Disease:</strong> ${escapeHTML(item.disease)}</p>
-      <p><strong>Confidence:</strong> ${escapeHTML(item.confidence)}</p>
-    </div>
-  `).join("");
+    historyList.innerHTML = "";
+
+    history.forEach((item) => {
+        const cropName =
+            translations[currentLanguage][item.cropKey];
+
+        let diseaseName;
+        let recommendation;
+
+        if (item.diseaseKey === "healthy") {
+            diseaseName = translations[currentLanguage].healthy;
+            recommendation =
+                translations[currentLanguage].recommendationHealthy;
+        } else {
+            diseaseName =
+                translations[currentLanguage][item.diseaseKey];
+
+            recommendation =
+                translations[currentLanguage].recommendationDisease;
+        }
+
+        const formattedDate = new Date(item.date).toLocaleString(
+            currentLanguage === "hi" ? "hi-IN" : "en-IN"
+        );
+
+        const historyDiv = document.createElement("div");
+        historyDiv.className = "history-item";
+
+        historyDiv.innerHTML = `
+            <p>
+                <strong>${translations[currentLanguage].historyCrop}:</strong>
+                ${cropName}
+            </p>
+
+            <p>
+                <strong>${translations[currentLanguage].historyDisease}:</strong>
+                ${diseaseName}
+            </p>
+
+            <p>
+                <strong>${translations[currentLanguage].historyConfidence}:</strong>
+                ${item.confidence}%
+            </p>
+
+            <p>
+                <strong>${translations[currentLanguage].historyRecommendation}:</strong>
+                ${recommendation}
+            </p>
+
+            <p>
+                <strong>${translations[currentLanguage].historyDate}:</strong>
+                ${formattedDate}
+            </p>
+        `;
+
+        historyList.appendChild(historyDiv);
+    });
 }
 
-clearHistoryButton.addEventListener("click", () => {
-  localStorage.removeItem("cropDiseaseHistory");
-  renderHistory();
+// History clear karna
+clearHistoryBtn.addEventListener("click", function () {
+    localStorage.removeItem("cropHistory");
+    renderHistory();
+
+    statusMessage.textContent =
+        translations[currentLanguage].historyCleared;
+
+    statusMessage.style.color = "#176b3a";
 });
 
-languageSelect.addEventListener("change", renderHistory);
-renderHistory();
-
-function escapeHTML(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
+// Initial page load
+translatePage("en");
