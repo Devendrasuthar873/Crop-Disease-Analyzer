@@ -1,79 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crop Disease Analyzer</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="pageTitle">Crop Disease Analyzer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="container">
-    <section class="card">
-      <h1>🌿 Crop Disease Analyzer</h1>
-      <p class="subtitle">Upload a crop leaf image to identify possible diseases.</p>
 
-      <div class="controls">
-        <label for="cropSelect">Select Crop</label>
-        <select id="cropSelect">
-          <option value="">-- Choose a crop --</option>
-          <option value="rice">Rice</option>
-          <option value="wheat">Wheat</option>
-          <option value="tomato">Tomato</option>
-          <option value="potato">Potato</option>
-          <option value="maize">Maize</option>
-          <option value="cotton">Cotton</option>
-          <option value="barley">Barley</option>
-          <option value="groundnut">Groundnut</option>
-          <option value="chickpea">Chickpea</option>
-          <option value="mustard">Mustard</option>
-          <option value="soybean">Soybean</option>
-          <option value="onion">Onion</option>
-          <option value="brinjal">Brinjal</option>
-          <option value="chilli">Chilli</option>
-          <option value="apple">Apple</option>
-          <option value="grape">Grape</option>
-          <option value="sugarcane">Sugarcane</option>
-          <option value="banana">Banana</option>
-          <option value="mango">Mango</option>
-        </select>
+    <header class="navbar">
+        <div class="logo" data-key="logo">🌿 Crop Disease Analyzer</div>
 
-        <label for="languageSelect">Language</label>
         <select id="languageSelect">
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
         </select>
-      </div>
+    </header>
 
-      <label class="upload-box" for="imageInput">
-        <span id="uploadText">📷 Choose a clear leaf image</span>
-        <input type="file" id="imageInput" accept="image/*">
-      </label>
+    <main class="container">
 
-      <img id="previewImage" class="preview hidden" alt="Selected leaf preview">
+        <section class="hero">
+            <h1 data-key="heading">Crop Disease Analyzer</h1>
+            <p data-key="subheading">
+                Select a crop and upload its leaf image to identify possible diseases.
+            </p>
+        </section>
 
-      <button id="analyzeButton">Analyze Image</button>
-      <p id="loading" class="loading hidden">Analyzing image...</p>
+        <!-- Crop Selection Section -->
+        <section class="card">
+            <h2 data-key="cropSelectionHeading">Select Crop</h2>
 
-      <section id="result" class="result hidden">
-        <h2>Analysis Result</h2>
-        <p><strong>Crop:</strong> <span id="resultCrop">-</span></p>
-        <p><strong>Disease:</strong> <span id="disease">-</span></p>
-        <p><strong>Confidence:</strong> <span id="confidence">-</span></p>
-        <p><strong>Recommendation:</strong> <span id="recommendation">-</span></p>
-        <p class="demo-note">⚠️ Demo mode: This version uses sample predictions. A trained AI model is not connected yet.</p>
-      </section>
+            <div class="crop-grid">
 
-      <section class="history-section">
-        <div class="history-heading">
-          <h2>Analysis History</h2>
-          <button id="clearHistoryButton" class="clear-button">Clear History</button>
-        </div>
-        <div id="historyList">
-          <p class="empty-history">No analysis history yet.</p>
-        </div>
-      </section>
-    </section>
-  </main>
-  <script src="script.js"></script>
+                <div class="crop-card" data-crop="wheat">
+                    <img
+                        src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500"
+                        alt="Wheat Crop"
+                    >
+                    <h3 data-key="wheat">Wheat</h3>
+                </div>
+
+                <div class="crop-card" data-crop="rice">
+                    <img
+                        src="https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=500"
+                        alt="Rice Crop"
+                    >
+                    <h3 data-key="rice">Rice</h3>
+                </div>
+
+                <div class="crop-card" data-crop="cotton">
+                    <img
+                        src="https://images.unsplash.com/photo-1592982537447-6f2a6a0a0a0a?w=500"
+                        alt="Cotton Crop"
+                    >
+                    <h3 data-key="cotton">Cotton</h3>
+                </div>
+
+                <div class="crop-card" data-crop="tomato">
+                    <img
+                        src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500"
+                        alt="Tomato Crop"
+                    >
+                    <h3 data-key="tomato">Tomato</h3>
+                </div>
+
+                <div class="crop-card" data-crop="maize">
+                    <img
+                        src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=500"
+                        alt="Maize Crop"
+                    >
+                    <h3 data-key="maize">Maize</h3>
+                </div>
+
+            </div>
+
+            <p class="selected-crop-text">
+                <strong data-key="selectedCropLabel">Selected Crop:</strong>
+                <span id="selectedCrop">None</span>
+            </p>
+        </section>
+
+        <!-- Image Upload Section -->
+        <section class="card">
+            <h2 data-key="uploadHeading">Upload Crop Image</h2>
+
+            <label for="imageInput" class="upload-label" data-key="chooseImage">
+                Choose Leaf Image
+            </label>
+
+            <input type="file" id="imageInput" accept="image/*">
+
+            <img id="previewImage" alt="Preview">
+
+            <button id="analyzeBtn" data-key="analyzeButton">
+                Analyze Image
+            </button>
+
+            <p id="statusMessage"></p>
+        </section>
+
+        <!-- Result Section -->
+        <section class="card result-card" id="resultSection">
+            <h2 data-key="resultHeading">Analysis Result</h2>
+
+            <p>
+                <strong data-key="cropLabel">Crop:</strong>
+                <span id="cropResult">-</span>
+            </p>
+
+            <p>
+                <strong data-key="diseaseLabel">Disease:</strong>
+                <span id="diseaseResult">-</span>
+            </p>
+
+            <p>
+                <strong data-key="confidenceLabel">Confidence:</strong>
+                <span id="confidenceResult">-</span>
+            </p>
+
+            <p>
+                <strong data-key="recommendationLabel">Recommendation:</strong>
+                <span id="recommendationResult">-</span>
+            </p>
+
+            <p>
+                <strong data-key="dateLabel">Date:</strong>
+                <span id="dateResult">-</span>
+            </p>
+        </section>
+
+        <!-- History Section -->
+        <section class="card">
+            <div class="history-header">
+                <h2 data-key="historyHeading">Analysis History</h2>
+
+                <button
+                    id="clearHistoryBtn"
+                    class="clear-btn"
+                    data-key="clearHistory"
+                >
+                    Clear History
+                </button>
+            </div>
+
+            <div id="historyList">
+                <p data-key="noHistory">
+                    No analysis history available.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p data-key="footerText">
+            Crop Disease Analyzer | Smart Agriculture Project
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
