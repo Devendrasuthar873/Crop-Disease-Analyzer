@@ -1,86 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Crop Disease Analyzer</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crop Disease Analyzer</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <main class="container">
+    <section class="card">
+      <h1>🌿 Crop Disease Analyzer</h1>
+      <p class="subtitle">Upload a crop leaf image to identify possible diseases.</p>
 
-    <div class="container">
+      <div class="controls">
+        <label for="cropSelect">Select Crop</label>
+        <select id="cropSelect">
+          <option value="">-- Choose a crop --</option>
+          <option value="rice">Rice</option>
+          <option value="wheat">Wheat</option>
+          <option value="tomato">Tomato</option>
+          <option value="potato">Potato</option>
+          <option value="maize">Maize</option>
+          <option value="cotton">Cotton</option>
+          <option value="barley">Barley</option>
+          <option value="groundnut">Groundnut</option>
+          <option value="chickpea">Chickpea</option>
+          <option value="mustard">Mustard</option>
+          <option value="soybean">Soybean</option>
+          <option value="onion">Onion</option>
+          <option value="brinjal">Brinjal</option>
+          <option value="chilli">Chilli</option>
+          <option value="apple">Apple</option>
+          <option value="grape">Grape</option>
+          <option value="sugarcane">Sugarcane</option>
+          <option value="banana">Banana</option>
+          <option value="mango">Mango</option>
+        </select>
 
-        <h1>🌱 Crop Disease Analyzer</h1>
-        <p class="subtitle">
-            Upload a crop leaf image to analyze possible disease.
-        </p>
+        <label for="languageSelect">Language</label>
+        <select id="languageSelect">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+        </select>
+      </div>
 
-        <!-- Upload Section -->
-        <div class="upload-box">
+      <label class="upload-box" for="imageInput">
+        <span id="uploadText">📷 Choose a clear leaf image</span>
+        <input type="file" id="imageInput" accept="image/*">
+      </label>
 
-            <input type="file" id="imageInput" accept="image/*">
+      <img id="previewImage" class="preview hidden" alt="Selected leaf preview">
 
-            <label for="imageInput" class="upload-button">
-                📷 Choose Leaf Image
-            </label>
+      <button id="analyzeButton">Analyze Image</button>
+      <p id="loading" class="loading hidden">Analyzing image...</p>
 
-            <p id="fileName">No image selected</p>
+      <section id="result" class="result hidden">
+        <h2>Analysis Result</h2>
+        <p><strong>Crop:</strong> <span id="resultCrop">-</span></p>
+        <p><strong>Disease:</strong> <span id="disease">-</span></p>
+        <p><strong>Confidence:</strong> <span id="confidence">-</span></p>
+        <p><strong>Recommendation:</strong> <span id="recommendation">-</span></p>
+        <p class="demo-note">⚠️ Demo mode: This version uses sample predictions. A trained AI model is not connected yet.</p>
+      </section>
 
+      <section class="history-section">
+        <div class="history-heading">
+          <h2>Analysis History</h2>
+          <button id="clearHistoryButton" class="clear-button">Clear History</button>
         </div>
-
-
-        <!-- Image Preview -->
-
-        <div class="preview-section">
-
-            <img id="previewImage" src="" alt="Leaf Preview">
-
+        <div id="historyList">
+          <p class="empty-history">No analysis history yet.</p>
         </div>
-
-
-        <!-- Analyze Button -->
-
-        <button id="analyzeButton">
-            🔍 Analyze Leaf
-        </button>
-
-
-        <!-- Loading -->
-
-        <div id="loading">
-            Analyzing image...
-        </div>
-
-
-        <!-- Result -->
-
-        <div id="result">
-
-            <h2>Analysis Result</h2>
-
-            <p>
-                <strong>Disease:</strong>
-                <span id="disease"></span>
-            </p>
-
-            <p>
-                <strong>Confidence:</strong>
-                <span id="confidence"></span>
-            </p>
-
-            <p>
-                <strong>Recommendation:</strong>
-                <span id="recommendation"></span>
-            </p>
-
-        </div>
-
-    </div>
-
-    <script src="script.js"></script>
-
+      </section>
+    </section>
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>
