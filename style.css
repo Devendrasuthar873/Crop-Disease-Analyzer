@@ -1,264 +1,700 @@
+/* =====================================================
+   1. BASIC / GLOBAL SETTINGS
+===================================================== */
+
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    background: #f1f8f3;
-    color: #1f3d2b;
-    min-height: 100vh;
+    background: linear-gradient(135deg, #dff6e4, #b8e0c2);
+    color: #183b24;
 }
 
-.navbar {
-    background: #176b3a;
-    color: white;
-    padding: 18px 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-#languageSelect {
-    padding: 9px 12px;
-    border-radius: 6px;
-    border: none;
-    font-size: 15px;
-    cursor: pointer;
-}
+/* =====================================================
+   2. MAIN WEBSITE CONTAINER
+===================================================== */
 
 .container {
-    width: 90%;
-    max-width: 1000px;
-    margin: 30px auto;
+    width: 95%;
+    max-width: 1250px;
+    margin: 25px auto;
+    padding: 10px;
 }
 
-.hero {
+
+/* =====================================================
+   3. MAIN CARD
+===================================================== */
+
+.card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    margin-bottom: 20px;
+}
+
+
+/* =====================================================
+   4. MAIN HEADING
+===================================================== */
+
+h1 {
     text-align: center;
-    margin-bottom: 25px;
-}
-
-.hero h1 {
-    color: #176b3a;
-    font-size: 35px;
+    margin-top: 0;
     margin-bottom: 10px;
+    color: #176b35;
+    font-size: 38px;
 }
 
-.hero p {
-    color: #52665a;
+.subtitle {
+    text-align: center;
+    color: #55715d;
+    margin-bottom: 25px;
     font-size: 17px;
 }
 
-.card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
 
-.card h2 {
-    margin-bottom: 20px;
-    color: #176b3a;
-}
+/* =====================================================
+   5. SELECT CROP SECTION
+===================================================== */
 
-/* Crop Selection */
-.crop-grid {
+.crop-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+    /* 4 CROPS IN ONE ROW */
+    grid-template-columns: repeat(4, 1fr);
+
     gap: 18px;
+    margin: 20px 0 30px;
 }
 
 
-.crop-card {
-    border: 2px solid #dcece0;
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
+/* =====================================================
+   6. INDIVIDUAL CROP CARD
+===================================================== */
+
+.crop-option {
+    background: #ffffff;
+    border: 2px solid #dce9df;
+    border-radius: 14px;
+
+    padding: 10px;
+
     text-align: center;
-    background: #f8fcf9;
-    transition: 0.3s;
+    cursor: pointer;
+
+    transition: 0.25s ease;
+
+    min-width: 0;
 }
 
-.crop-card:hover {
+
+/* Crop hover effect */
+
+.crop-option:hover {
     transform: translateY(-5px);
-    border-color: #176b3a;
-    box-shadow: 0 5px 12px rgba(23, 107, 58, 0.18);
+
+    box-shadow: 0 8px 18px rgba(22, 121, 74, 0.15);
+
+    border-color: #7bb58d;
 }
 
-.crop-card.selected {
-    border: 3px solid #176b3a;
-    background: #e4f4e8;
+
+/* Selected crop */
+
+.crop-option.active {
+    border-color: #16794a;
+
+    background: #effaf2;
+
+    box-shadow: 0 0 0 3px rgba(22, 121, 74, 0.12);
 }
 
-.crop-card img {
+
+/* =====================================================
+   7. CROP IMAGE
+===================================================== */
+
+.crop-option img {
     width: 100%;
-    height: 130px;
+
+    /* SMALLER CROP IMAGE */
+    height: 120px;
+
     object-fit: cover;
+
+    border-radius: 10px;
+
     display: block;
 }
 
-.crop-card h3 {
-    padding: 12px 5px;
-    color: #176b3a;
+
+/* Crop name */
+
+.crop-option b {
+    display: block;
+
+    margin-top: 9px;
+
     font-size: 16px;
+
+    color: #183b24;
 }
 
-.selected-crop-text {
-    margin-top: 20px;
-    font-size: 16px;
+
+/* Small text */
+
+.crop-option small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #7b8c81;
+
+    font-size: 11px;
 }
 
-#selectedCrop {
-    color: #176b3a;
+
+/* =====================================================
+   8. CONTROL SECTION
+===================================================== */
+
+.controls {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.controls label {
     font-weight: bold;
 }
 
-/* Upload Section */
 
-input[type="file"] {
-    display: none;
-}
+/* =====================================================
+   9. DROPDOWN
+===================================================== */
 
-.upload-label {
-    display: inline-block;
-    background: #e2f2e7;
-    color: #176b3a;
-    padding: 12px 20px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.upload-label:hover {
-    background: #cce8d5;
-}
-
-#previewImage {
-    display: none;
+select {
     width: 100%;
-    max-width: 350px;
-    max-height: 300px;
-    object-fit: contain;
-    border-radius: 10px;
-    margin: 15px 0;
-    border: 2px solid #d4e8d9;
+
+    padding: 12px;
+
+    border: 1px solid #a8c9b0;
+
+    border-radius: 8px;
+
+    background: #f8fff9;
+
+    font-size: 15px;
+
+    outline: none;
 }
+
+select:focus {
+    border-color: #1976d2;
+
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
+}
+
+
+/* =====================================================
+   10. UPLOAD SECTION
+===================================================== */
+
+.upload-box,
+label[for="imageInput"] {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 14px 24px;
+
+    text-align: center;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #1976d2;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+    transition: 0.2s ease;
+
+    margin-top: 10px;
+}
+
+
+/* Upload button hover */
+
+.upload-box:hover,
+label[for="imageInput"]:hover {
+    background: #125ca5;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 12px rgba(25, 118, 210, 0.25);
+}
+
+
+/* Actual file input hidden */
+
+#imageInput {
+    display: none;
+}
+
+
+/* =====================================================
+   11. IMAGE PREVIEW
+===================================================== */
+
+.preview,
+#previewImage {
+    display: block;
+
+    max-width: 400px;
+
+    max-height: 250px;
+
+    width: auto;
+
+    height: auto;
+
+    margin: 20px auto;
+
+    border-radius: 12px;
+
+    object-fit: contain;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =====================================================
+   12. BUTTONS
+===================================================== */
 
 button {
-    background: #176b3a;
-    color: white;
     border: none;
-    padding: 12px 20px;
-    border-radius: 7px;
-    cursor: pointer;
+
+    border-radius: 9px;
+
+    padding: 12px 22px;
+
     font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
 }
 
-button:hover {
-    background: #0e512a;
-}
 
-button:disabled {
-    background: #9ab7a3;
-    cursor: not-allowed;
-}
+/* =====================================================
+   13. ANALYZE BUTTON
+===================================================== */
 
-#statusMessage {
-    margin-top: 15px;
-    font-weight: bold;
-}
+/*
+   Both IDs are included so your existing HTML works
+   whether it uses analyzeButton or analyzeBtn.
+*/
 
-/* Result */
+#analyzeButton,
+#analyzeBtn {
+    display: inline-flex;
 
-.result-card {
-    display: none;
-    border-left: 5px solid #176b3a;
-}
-
-.result-card p {
-    margin: 14px 0;
-    line-height: 1.6;
-}
-
-/* History */
-
-.history-header {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 15px;
-}
 
-.clear-btn {
-    background: #c0392b;
-    padding: 9px 14px;
-}
+    justify-content: center;
 
-.clear-btn:hover {
-    background: #922b21;
-}
+    min-width: 160px;
 
-.history-item {
-    background: #f1f8f3;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 12px;
-    border-left: 4px solid #176b3a;
-}
+    padding: 13px 25px;
 
-.history-item p {
-    margin: 7px 0;
-}
+    margin-top: 15px;
 
-footer {
-    text-align: center;
-    background: #176b3a;
+    background: #1976d2;
+
     color: white;
-    padding: 18px;
+
+    font-weight: bold;
+
+    border-radius: 9px;
+
+    transition: 0.2s ease;
+}
+
+
+/* Analyze hover */
+
+#analyzeButton:hover,
+#analyzeBtn:hover {
+    background: #125ca5;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 12px rgba(25, 118, 210, 0.25);
+}
+
+
+/* =====================================================
+   14. LOADING MESSAGE
+===================================================== */
+
+.loading {
+    text-align: center;
+
+    color: #1976d2;
+
+    font-weight: bold;
+
+    margin-top: 15px;
+}
+
+
+/* =====================================================
+   15. RESULT SECTION
+===================================================== */
+
+.result {
+    margin-top: 25px;
+
+    padding: 25px;
+
+    border-left: 5px solid #2e8b57;
+
+    border-radius: 12px;
+
+    background: #f0fff3;
+}
+
+.result h2,
+.history-section h2 {
+    margin-top: 0;
+
+    color: #176b35;
+}
+
+
+/* =====================================================
+   16. DEMO NOTE
+===================================================== */
+
+.demo-note {
+    font-size: 13px;
+
+    color: #8a5a00;
+
+    background: #fff7dc;
+
+    padding: 10px;
+
+    border-radius: 7px;
+}
+
+
+/* =====================================================
+   17. HISTORY SECTION
+===================================================== */
+
+.history-section {
     margin-top: 30px;
 }
 
-/* Mobile Responsive */
+.history-heading {
+    display: flex;
 
-@media (max-width: 800px) {
-    .crop-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
 }
 
+
+/* Clear history button */
+
+.clear-button {
+    background: #d9534f;
+
+    color: white;
+
+    font-size: 13px;
+
+    padding: 9px 14px;
+
+    border-radius: 8px;
+}
+
+.clear-button:hover {
+    background: #b52b27;
+
+    transform: translateY(-2px);
+}
+
+
+/* History item */
+
+.history-item {
+    background: #f7fbf8;
+
+    border: 1px solid #d5e8d9;
+
+    padding: 14px;
+
+    border-radius: 8px;
+
+    margin: 10px 0;
+}
+
+.history-item p {
+    margin: 5px 0;
+}
+
+.empty-history {
+    color: #718277;
+}
+
+
+/* =====================================================
+   18. HIDDEN ELEMENT
+===================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =====================================================
+   19. MOBILE / TABLET
+===================================================== */
+
+
+/* Tablet */
+
+@media (max-width: 900px) {
+
+    .crop-gallery {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+
+/* Mobile */
+
 @media (max-width: 600px) {
-    .navbar {
-        padding: 15px;
-        flex-direction: column;
-        gap: 12px;
-    }
 
-    .logo {
-        font-size: 19px;
-    }
-
-    .hero h1 {
-        font-size: 27px;
-    }
-
-    .crop-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .history-header {
-        flex-direction: column;
-        align-items: flex-start;
+    .container {
+        width: 96%;
     }
 
     .card {
-        padding: 18px;
+        padding: 20px;
     }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .controls {
+        grid-template-columns: 1fr;
+    }
+
+    .crop-gallery {
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 12px;
+    }
+
+    .crop-option img {
+        height: 100px;
+    }
+
+    .history-heading {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+}
+
+
+/* Very small mobile */
+
+@media (max-width: 400px) {
+
+    .crop-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .crop-option img {
+        height: 85px;
+    }
+
+    .crop-option b {
+        font-size: 14px;
+    }
+
+}
+/* =========================================
+   CROP GRID - FINAL DESIGN
+========================================= */
+
+.crop-grid {
+    display: grid;
+
+    /* Desktop: 4 crops in one row */
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+
+    width: 100%;
+
+    margin-top: 20px;
+}
+
+
+/* =========================================
+   INDIVIDUAL CROP CARD
+========================================= */
+
+.crop-card {
+    background: #ffffff;
+
+    border: 2px solid #dce9df;
+
+    border-radius: 14px;
+
+    padding: 10px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+
+    min-width: 0;
+}
+
+
+/* Hover effect */
+
+.crop-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #75aa84;
+
+    box-shadow: 0 8px 18px rgba(22, 121, 74, 0.15);
+}
+
+
+/* Selected crop */
+
+.crop-card.active {
+    border-color: #16794a;
+
+    background: #effaf2;
+
+    box-shadow: 0 0 0 3px rgba(22, 121, 74, 0.12);
+}
+
+
+/* =========================================
+   CROP IMAGE
+========================================= */
+
+.crop-card img {
+    display: block;
+
+    width: 100%;
+
+    /* IMPORTANT: image size */
+    height: 120px;
+
+    object-fit: cover;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   CROP NAME
+========================================= */
+
+.crop-card h3 {
+    margin: 10px 0 2px;
+
+    font-size: 16px;
+
+    color: #183b24;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .crop-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .crop-grid {
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 12px;
+    }
+
+    .crop-card img {
+        height: 100px;
+    }
+
+}
+
+
+/* =========================================
+   VERY SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+
+    .crop-card img {
+        height: 85px;
+    }
+
+    .crop-card h3 {
+        font-size: 14px;
+    }
+
 }
