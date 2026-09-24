@@ -212,8 +212,8 @@ imageInput.addEventListener("change", function (event) {
     statusMessage.textContent = "";
 });
 
-// Analyze button
-analyzeBtn.addEventListener("click", function () {
+// Analyze button - Flask Backend se connect
+analyzeBtn.addEventListener("click", async function () {
     if (!selectedCrop) {
         statusMessage.textContent =
             translations[currentLanguage].selectCrop;
@@ -236,41 +236,38 @@ analyzeBtn.addEventListener("click", function () {
     statusMessage.style.color = "#176b3a";
     analyzeBtn.disabled = true;
 
-    setTimeout(function () {
-        const diseases = [
-            "healthy",
-            "disease1",
-            "disease2",
-            "disease3"
-        ];
+    try {
+        // Image ko FormData me convert karna
+        const formData = new FormData();
+        formData.append("image", selectedImage);
 
-        const randomDisease =
-            diseases[Math.floor(Math.random() * diseases.length)];
+        // Flask backend ko image bhejna
+        const response = await fetch(
+            "http://127.0.0.1:5000/predict",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
 
-        let diseaseName;
-        let recommendation;
+        const data = await response.json();
 
-        if (randomDisease === "healthy") {
-            diseaseName = translations[currentLanguage].healthy;
-            recommendation =
-                translations[currentLanguage].recommendationHealthy;
-        } else {
-            diseaseName =
-                translations[currentLanguage][randomDisease];
-
-            recommendation =
-                translations[currentLanguage].recommendationDisease;
+        if (!response.ok) {
+            throw new Error(data.error || "Prediction failed");
         }
 
-        const confidence = Math.floor(Math.random() * 16) + 80;
+        const cropName =
+            translations[currentLanguage][selectedCrop];
+
+        const diseaseName = data.disease;
+        const confidence = data.confidence;
+        const recommendation = data.recommendation;
 
         const date = new Date().toLocaleString(
             currentLanguage === "hi" ? "hi-IN" : "en-IN"
         );
 
-        const cropName =
-            translations[currentLanguage][selectedCrop];
-
+        // Result show karna
         cropResult.textContent = cropName;
         diseaseResult.textContent = diseaseName;
         confidenceResult.textContent = confidence + "%";
@@ -279,10 +276,12 @@ analyzeBtn.addEventListener("click", function () {
 
         resultSection.style.display = "block";
 
+        // History save karna
         const historyItem = {
             cropKey: selectedCrop,
-            diseaseKey: randomDisease,
+            diseaseText: diseaseName,
             confidence: confidence,
+            recommendationText: recommendation,
             date: new Date().toISOString()
         };
 
@@ -301,8 +300,19 @@ analyzeBtn.addEventListener("click", function () {
         statusMessage.textContent =
             translations[currentLanguage].analysisComplete;
 
+        statusMessage.style.color = "#176b3a";
+
+    } catch (error) {
+        console.error("Error:", error);
+
+        statusMessage.textContent =
+            "Backend connection error. Please check Flask server.";
+
+        statusMessage.style.color = "red";
+
+    } finally {
         analyzeBtn.disabled = false;
-    }, 1500);
+    }
 });
 
 // History render karna
@@ -323,19 +333,23 @@ function renderHistory() {
         const cropName =
             translations[currentLanguage][item.cropKey];
 
-        let diseaseName;
-        let recommendation;
+        // New backend history format
+        let diseaseName = item.diseaseText;
+        let recommendation = item.recommendationText;
 
-        if (item.diseaseKey === "healthy") {
-            diseaseName = translations[currentLanguage].healthy;
-            recommendation =
-                translations[currentLanguage].recommendationHealthy;
-        } else {
-            diseaseName =
-                translations[currentLanguage][item.diseaseKey];
+        // Purane random-result history ke liye compatibility
+        if (!diseaseName && item.diseaseKey) {
+            if (item.diseaseKey === "healthy") {
+                diseaseName = translations[currentLanguage].healthy;
+                recommendation =
+                    translations[currentLanguage].recommendationHealthy;
+            } else {
+                diseaseName =
+                    translations[currentLanguage][item.diseaseKey];
 
-            recommendation =
-                translations[currentLanguage].recommendationDisease;
+                recommendation =
+                    translations[currentLanguage].recommendationDisease;
+            }
         }
 
         const formattedDate = new Date(item.date).toLocaleString(
@@ -353,7 +367,7 @@ function renderHistory() {
 
             <p>
                 <strong>${translations[currentLanguage].historyDisease}:</strong>
-                ${diseaseName}
+                ${diseaseName || "Unknown"}
             </p>
 
             <p>
@@ -363,7 +377,7 @@ function renderHistory() {
 
             <p>
                 <strong>${translations[currentLanguage].historyRecommendation}:</strong>
-                ${recommendation}
+                ${recommendation || "No recommendation"}
             </p>
 
             <p>
