@@ -242,9 +242,7 @@ analyzeBtn.addEventListener("click", async function () {
         formData.append("image", selectedImage);
 
         // Flask backend ko image bhejna
-        const response = await fetch(
-            "http://127.0.0.1:5000/predict",
-            {
+        const response = await  fetch("https://crop-disease-analyzer-dk9c.onrender.com/predict", {
                 method: "POST",
                 body: formData
             }
